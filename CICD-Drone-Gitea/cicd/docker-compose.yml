@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: gitea
+      MYSQL_DATABASE: gitea
+      MYSQL_USER: gitea
+      MYSQL_PASSWORD: gitea
+    volumes:
+      - gitea_db:/var/lib/mysql
+    restart: always
+
+  gitea:
+    image: gitea/gitea:latest
+    ports:
+      - "3000:3000"
+      - "222:22"
+    volumes:
+      - gitea:/data
+    depends_on:
+      - db
+    restart: always
+
+  drone:
+    image: drone/drone:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - gitea
+    volumes:
+      - drone:/data
+    environment:
+      DRONE_GITEA_SERVER: http://gitea:3000
+      DRONE_RPC_SECRET: supersecret
+      DRONE_SERVER_HOST: localhost:8080
+      DRONE_SERVER_PROTO: http
+      DRONE_USER_CREATE: username:admin,admin:true
+volumes:
+  gitea:
+  drone:
+  gitea_db:
