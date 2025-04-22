@@ -1,0 +1,27 @@
+---
+- name: Provision CI/CD container
+  hosts: civm
+  become: true
+  tasks:
+    - name: Instala pacotes necessários
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Cria diretório do projeto
+      file:
+        path: /opt/cicd
+        state: directory
+        mode: '0755'
+
+    - name: Copia docker-compose.yml
+      copy:
+        src: ../files/docker-compose.yml
+        dest: /opt/cicd/docker-compose.yml
+        mode: '0644'
+
+    - name: Sobe a stack Docker
+      command: docker-compose -f /opt/cicd/docker-compose.yml up -d

@@ -1,0 +1,83 @@
+groups:
+- name: example
+  rules:
+
+  # Alert for any instance that is unreachable for >5 minutes.
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+
+
+  - alert: high_load
+    expr: node_load1 > 0.5
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high load"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
+
+
+# Windows Server: prometheus-community/windows_exporter
+
+# Windows Server collector Error / Collector {{ $labels.collector }} was not successful
+  - alert: WindowsServerCollectorError
+    expr: windows_exporter_collector_success == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Windows Server collector Error (instance {{ $labels.instance }})
+      description: "Collector {{ $labels.collector }} was not successful\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+# Windows Server service Status / Windows Service state is not OK
+  - alert: WindowsServerServiceStatus
+    expr: windows_service_status{status="ok"} != 1
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: Windows Server service Status (instance {{ $labels.instance }})
+      description: "Windows Service state is not OK\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+# Windows Server CPU Usage / CPU Usage is more than 80%
+  - alert: WindowsServerCpuUsage
+    expr: 100 - (avg by (instance) (rate(windows_cpu_time_total{mode="idle"}[2m])) * 100) > 80
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: Windows Server CPU Usage (instance {{ $labels.instance }})
+      description: "CPU Usage is more than 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+# Windows Server memory Usage / Memory usage is more than 90%
+  - alert: WindowsServerMemoryUsage
+    expr: 100 - ((windows_os_physical_memory_free_bytes / windows_cs_physical_memory_bytes) * 100) > 90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Windows Server memory Usage (instance {{ $labels.instance }})
+      description: "Memory usage is more than 90%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+# Windows Server disk Space Usage / Disk usage is more than 80%
+  - alert: WindowsServerMemoryUsage
+    expr: 100 - ((windows_os_physical_memory_free_bytes / windows_cs_physical_memory_bytes) * 100) > 90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Windows Server memory Usage (instance {{ $labels.instance }})
+      description: "Memory usage is more than 90%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+# Collection of alerting rules
+# https://samber.github.io/awesome-prometheus-alerts/rules.html#docker-containers

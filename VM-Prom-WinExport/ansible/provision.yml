@@ -1,0 +1,101 @@
+- name: Provision Prometheus + Exporters
+  hosts: prom_winexport
+  become: true
+  tasks:
+
+    - name: Instala pacotes necessários
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    # Diretórios
+    - name: Cria diretório do projeto
+      file:
+        path: /opt/prometheus
+        state: directory
+        mode: '0755'
+
+    - name: Cria subdiretórios
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - /opt/prometheus/prometheus
+        - /opt/prometheus/alertmanager
+        - /opt/prometheus/portainer-data
+        - /opt/prometheus/grafana
+        - /opt/prometheus/grafana/provisioning
+        - /opt/prometheus/grafana/provisioning/dashboards
+        - /opt/prometheus/grafana/provisioning/datasources
+
+    # Copia arquivos principais
+    - name: Copia .env para o container
+      copy:
+        src: files/.env
+        dest: /opt/prometheus/.env
+        mode: '0644'
+
+    - name: Copia docker-compose.yml
+      copy:
+        src: files/docker-compose.yml
+        dest: /opt/prometheus/docker-compose.yml
+        mode: '0644'
+
+    - name: Copia prometheus.yml
+      copy:
+        src: files/prometheus.yml
+        dest: /opt/prometheus/prometheus/prometheus.yml
+        mode: '0644'
+
+    - name: Copia alert.rules
+      copy:
+        src: files/alert.rules
+        dest: /opt/prometheus/prometheus/alert.rules
+        mode: '0644'
+
+    - name: Copia config.yml do Alertmanager
+      copy:
+        src: files/alertmanager/config.yml
+        dest: /opt/prometheus/alertmanager/config.yml
+        mode: '0644'
+
+    # Grafana
+    - name: Copia datasource prometheus.yml
+      copy:
+        src: files/grafana/provisioning/datasources/prometheus.yml
+        dest: /opt/prometheus/grafana/provisioning/datasources/prometheus.yml
+        mode: '0644'
+
+    - name: Copia dashboards.yml
+      copy:
+        src: files/grafana/provisioning/dashboards.yml
+        dest: /opt/prometheus/grafana/provisioning/dashboards.yml
+        mode: '0644'
+
+    - name: Copia dashboard JSON (Speedtest)
+      copy:
+        src: files/grafana/provisioning/dashboards/speedtest.json
+        dest: /opt/prometheus/grafana/provisioning/dashboards/speedtest.json
+        mode: '0644'
+
+    # Portainer
+    - name: Copia dados do Portainer
+      copy:
+        src: files/portainer-data/
+        dest: /opt/prometheus/portainer-data/
+        mode: '0755'
+
+    # Permissões e docker
+    - name: Ajusta permissão do docker.sock
+      file:
+        path: /var/run/docker.sock
+        mode: '0666'
+
+    - name: Sobe a stack Docker
+      command: docker-compose -f docker-compose.yml up -d
+      args:
+        chdir: /opt/prometheus
