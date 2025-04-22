@@ -47,23 +47,30 @@ Este projeto automatiza a criação e configuração de ambientes de monitoramen
 
 ---
 
-## 🛠️ Configurações PKI no Proxmox
+## 🛠️ Configurações no Proxmox
 
-Para que o Terraform se conecte com segurança ao Proxmox VE, são necessárias as seguintes configurações:
+# Gerando API Tokens no Proxmox
 
-1. **Gerar um par de chaves RSA (se ainda não existir):**
+Para que o Terraform se conecte ao Proxmox utilizando API Token:
 
-```bash
-ssh-keygen -t rsa -b 4096 -C "provisioning@homelab"
-```
+1. Acesse a interface web do Proxmox (ex: `https://IP-DO-PROXMOX:8006`).
+2. Vá até: `Datacenter > Permissions > API Tokens`.
+3. Clique em **"Add"**:
+   - User: `terraform@pve` (ou outro usuário com permissões adequadas)
+   - Token ID: `tf-token` (ou outro nome amigável)
+   - Marque a opção **"Privilege Separation"**.
+4. Após salvar, será exibido o **"Secret"** — **copie imediatamente**, pois ele não será mostrado novamente.
 
-2. **Copiar a chave pública para o usuário do Proxmox:**
+Certifique-se de que o usuário possui permissões para VM, LXC e leitura em Datacenter.
+Para mais segurança, o ideal é armazenar esse token usando um gerenciador de segredos ou como variável de ambiente.
 
-```bash
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.X.X
-```
+# No seu `terraform.tfvars`:
 
-3. **Permissões adequadas no Proxmox:**
+```hcl
+pm_api_token_id     = "terraform@pve!tf-token"
+pm_api_token_secret = "SEU_TOKEN_SECRETO"
+
+5. **Permissões adequadas no Proxmox:**
    - Usuário com permissão para criar e gerenciar VMs/CTs.
    - Adicionar `pve` realm ao Terraform:  
      Exemplo em `terraform.tfvars`:
