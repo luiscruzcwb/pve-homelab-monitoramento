@@ -18,6 +18,25 @@ Este projeto automatiza a criação e configuração de ambientes de monitoramen
 
 ---
 
+<div align="center">
+    <!-- Your badges here -->
+    <img src="https://img.shields.io/badge/proxmox-%23FF6F00.svg?style=for-the-badge&logo=proxmox&logoColor=white">
+    <img src="https://img.shields.io/badge/terraform-%238511FA.svg?style=for-the-badge&logo=terraform&logoColor=white">
+    <img src="https://img.shields.io/badge/ansible-%23000.svg?style=for-the-badge&logo=ansible&logoColor=white">
+    <img src="https://img.shields.io/badge/ubuntu-%23D00000.svg?style=for-the-badge&logo=ubuntu&logoColor=white">
+    <img src="https://img.shields.io/badge/docker-%232496ED.svg?style=for-the-badge&logo=docker&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/prometheus-%23E6522C.svg?style=for-the-badge&logo=prometheus&logoColor=white">
+    <img src="https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white">
+    <img src="https://img.shields.io/badge/alertmanager-%23E6522C.svg?style=for-the-badge&logo=prometheus&logoColor=white">
+    <img src="https://img.shields.io/badge/node_exporter-%2330A14E.svg?style=for-the-badge&logo=linux&logoColor=white">
+    <img src="https://img.shields.io/badge/speedtest_exporter-%2300579C.svg?style=for-the-badge&logo=speedtest&logoColor=white">
+    <img src="https://img.shields.io/badge/portainer-%2300B3EC.svg?style=for-the-badge&logo=portainer&logoColor=white">
+    </br>
+    
+</div>
+<br>
+
 ## ⚙️ Estrutura
 
 ```bash
