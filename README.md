@@ -1,4 +1,4 @@
-# 🐧 Projeto de Provisionamento Automático com Terraform, Ansible e Docker
+# 🐧 Projeto de Provisionamento Automático com Terraform, Ansible, Docker, Prometheus, Grafana e InfluxDB
 
 ![Arquitetura](./docs/imagem-arquitetura.png)
 
@@ -8,13 +8,14 @@ Este projeto automatiza a criação e configuração de ambientes de monitoramen
 
 - **Terraform** para provisionamento da infraestrutura no **Proxmox VE**.
 - **Ansible** para a configuração pós-provisionamento das VMs/CTs.
-- **Docker** para orquestração dos containers necessários para as aplicações como:
+- **Docker** para orquestração dos containers necessários para as aplicações:
   - Prometheus
   - Grafana
   - Alertmanager
   - Node Exporter
   - Speedtest Exporter
   - Portainer
+  - InfluxDB
 
 ---
 
@@ -125,9 +126,37 @@ bash ./scripts/run_ansible.sh
 
 ---
 
+## 📊 Monitoramento do Proxmox com InfluxDB e Grafana
+
+### Configurar o InfluxDB no Proxmox:
+
+1. No Proxmox, acesse `Datacenter > Metric Server`.
+2. Clique em **"Add"** e escolha **"InfluxDB"**.
+3. Preencha os seguintes campos:
+   - **Server**: `192.168.18.152`
+   - **Port**: `8086`
+   - **Organization**: `MinhaOrganizacao`
+   - **Token**: `TokenSecretoInflux`
+   - **Bucket**: `MeuBucket`
+   - **Verify Certificate**: `No`
+4. Salve as configurações e o Proxmox começará a enviar as métricas automaticamente.
+
+### Importar o Dashboard no Grafana:
+
+1. No Grafana, acesse `Dashboards > Import`.
+2. No campo "Import via grafana.com", insira o ID `17051`.
+3. Clique em **"Load"**.
+4. Selecione a fonte de dados configurada para o InfluxDB.
+5. Clique em **"Import"** para finalizar.
+
+Referência: [Monitoring Proxmox with InfluxDB and Grafana - Tanner Cude](https://tcude.net/monitoring-proxmox-with-influxdb-and-grafana/)
+
+
 ## 📊 Resultado Esperado
 
-Ambiente provisionado automaticamente, com stack Docker configurada, dashboard do Grafana pronto, monitoramento funcionando, e acesso via IP fixo configurado.
+Sistema completo de monitoramento automatizado, com integração Proxmox + InfluxDB + Grafana:
+- Dashboards em tempo real
+- Métricas de uso de CPU, Memória, Rede e Disco das VMs/CTs
 
 ---
 

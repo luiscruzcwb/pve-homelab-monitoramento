@@ -7,3 +7,19 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     editable: false
+
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: false
+    editable: true
+    database: MeuBucket
+    jsonData:
+      version: Flux
+      organization: MinhaOrganizacao
+      defaultBucket: MeuBucket
+      tlsSkipVerify: true
+      httpMode: POST
+    secureJsonData:
+      token: 1ULmeoeVfuNMzNWjMBVxLLdvMPZ4nvkRTnpHEBiCeHgGtpSvqe7YE65VwuRRwgYXsA8lEe0L9dkQRhWkN9YdnQ==

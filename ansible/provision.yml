@@ -96,6 +96,11 @@
         mode: '0666'
 
     - name: Sobe a stack Docker
-      command: docker-compose -f docker-compose.yml up -d
+      command: docker-compose --env-file .env up -d
       args:
         chdir: /opt/prometheus
+
+    # Ajustar nome da VM
+    - name: Atualizar hostname da VM
+      hostname:
+        name: vm-prom-winexport
