@@ -5,6 +5,7 @@ volumes:
   grafana_data: {}
   portainer_data: {}
   influxdb-data: {}
+  uptimekuma_data: {}
 
 services:
 
@@ -131,5 +132,18 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
-
+  uptime-kuma:
+      image: louislam/uptime-kuma:1
+      container_name: uptime-kuma
+      environment:
+        - NODE_ENV=production
+        - DB_ENGINE=sqlite
+        - SQLITE_FILE=/app/data/uptime-kuma.db
+        - TZ=America/Sao_Paulo
+      volumes:
+        - ./uptime_data:/app/data
+      ports:
+        - 3001:3001
+      restart: unless-stopped
+  
 

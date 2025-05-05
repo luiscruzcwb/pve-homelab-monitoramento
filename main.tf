@@ -13,10 +13,10 @@ provider "proxmox" {
   pm_api_token_secret = var.pm_api_token_secret
 }
 
-resource "proxmox_lxc" "prom_winexport" {
+resource "proxmox_lxc" "NOME_DO_RESOURCE" { #Ajustar
   target_node  = var.target_node
   hostname     = var.hostname
-  ostemplate   = "local:vztmpl/ubuntu-24.10-standard_24.10-1_amd64.tar.zst"
+  ostemplate   = "local:vztmpl/ubuntu-24.10-standard_24.10-1_amd64.tar.zst" #Ajustar 
   password     = "admin123"
   unprivileged = true
   cores        = 2

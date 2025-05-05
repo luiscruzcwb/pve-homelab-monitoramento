@@ -31,6 +31,7 @@
         - /opt/prometheus/grafana/provisioning
         - /opt/prometheus/grafana/provisioning/dashboards
         - /opt/prometheus/grafana/provisioning/datasources
+        - /opt/prometheus/uptime-kuma
 
     # Copia arquivos principais
     - name: Copia .env para o container
