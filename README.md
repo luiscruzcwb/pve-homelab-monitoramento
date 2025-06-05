@@ -1,21 +1,23 @@
-# 🐧 Projeto de Provisionamento Automático com Terraform, Ansible, Docker, Prometheus, Grafana e InfluxDB
+# 🐧 Projeto de Provisionamento Automático com Terraform, Ansible, Docker, Prometheus, Grafana, InfluxDB, Uptime-kuma e Speedtest
 
 ![Arquitetura](./docs/imagem-arquitetura.png)
 
 ## 📌 Descrição
 
-Este projeto automatiza a criação e configuração de ambientes de monitoramento e serviços utilizando:
+Este projeto automatiza a criação e configuração de um ambiente de monitoramento e serviços utilizando:
 
 - **Terraform** para provisionamento da infraestrutura no **Proxmox VE**.
 - **Ansible** para a configuração pós-provisionamento das VMs/CTs.
 - **Docker** para orquestração dos containers necessários para as aplicações:
-  - Prometheus
-  - Grafana
-  - Alertmanager
-  - Node Exporter
-  - Speedtest Exporter
   - Portainer
+  - Prometheus
+  - Node Exporter
+  - Alertmanager
+  - cadvisor
+  - Grafana
+  - Speedtest Exporter
   - InfluxDB
+  - UptimeKuma
 
 ---
 
@@ -119,6 +121,8 @@ terraform apply
 ```
 
 3. **Provisionamento com Ansible:**
+
+Esse trecho, também está no "main.tf" em "run_ansible_playbook" do **Terraform**.
 
 ```bash
 bash ./scripts/run_ansible.sh
