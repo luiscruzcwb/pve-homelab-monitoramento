@@ -91,7 +91,6 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - 8080:8080
-    restart: always
     deploy:
       mode: global
 
@@ -129,7 +128,6 @@ services:
       - SPEEDTEST_SERVER=
     ports:
       - "9798:9798"
-    restart: unless-stopped
 
   influxdb:
     image: influxdb:2.7-alpine
