@@ -3,6 +3,7 @@ crash.log
 *.tfstate
 *.tfstate.*
 terraform.tfvars
+.terraform.lock.hcl
 *.retry
 *.log
 *.cache
