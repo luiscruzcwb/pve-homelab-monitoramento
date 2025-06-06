@@ -1,0 +1,17 @@
+name: Ansible Syntax Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Ansible
+        run: sudo apt-get update && sudo apt-get install -y ansible
+      - name: Run syntax check
+        run: ansible-playbook --syntax-check ansible/provision.yml
