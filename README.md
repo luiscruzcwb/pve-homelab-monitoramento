@@ -91,6 +91,7 @@ Para mais segurança, o ideal é armazenar esse token usando um gerenciador de s
 ```hcl
 pm_api_token_id     = "terraform@pve!tf-token"
 pm_api_token_secret = "SEU_TOKEN_SECRETO"
+```
 
 5. **Permissões adequadas no Proxmox:**
    - Usuário com permissão para criar e gerenciar VMs/CTs.
