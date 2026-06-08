@@ -1,5 +1,9 @@
 # 🐧 Projeto de Provisionamento Automático com Terraform, Ansible, Docker, Prometheus, Grafana, InfluxDB, Uptime-kuma e Speedtest
 
+> 🏠 **Parte do meu homelab.** Este repositório documenta um dos serviços que provisionei no meu cluster Proxmox. A stack completa foi posteriormente consolidada num monorepo GitOps — veja a versão pública de referência em **[homelab-infrastructure-template](https://github.com/luiscruzcwb/homelab-infrastructure-template)**.
+>
+> ✍️ Escrevo sobre esses projetos no **[dev.to/luiscruzcwb](https://dev.to/luiscruzcwb)**.
+
 ![Arquitetura](./docs/imagem-arquitetura.png)
 
 ## 📌 Descrição
@@ -64,7 +68,7 @@ Este projeto automatiza a criação e configuração de um ambiente de monitoram
 │   └── run_ansible.sh
 ├── main.tf
 ├── variables.tf
-├── terraform.tfvars
+└── terraform.tfvars.example   # modelo — o terraform.tfvars real (com segredos) fica fora do versionamento
 ```
 
 ---
@@ -178,6 +182,20 @@ A imagem de arquitetura pode ser encontrada em `./docs/imagem-arquitetura.png`
 - Ansible 2.14+
 - Docker e Docker Compose
 - Acesso SSH ao Proxmox
+
+---
+
+## 🎓 Skills demonstradas
+
+Este projeto serviu como laboratório prático para consolidar competências de **Infraestrutura como Código** e **Observabilidade**:
+
+- **IaC com Terraform** — provisionamento declarativo de VMs/CTs no Proxmox via API Token (sem senha root).
+- **Configuração com Ansible** — provisioning idempotente pós-deploy, integrado ao fluxo do Terraform.
+- **Containerização** — orquestração de uma stack de observabilidade completa com Docker Compose.
+- **Observabilidade** — Prometheus (coleta), Alertmanager (alertas), Grafana (dashboards), Node Exporter/cAdvisor (métricas de host/containers) e UptimeKuma (uptime).
+- **Monitoramento do hypervisor** — integração Proxmox → InfluxDB → Grafana para métricas do próprio cluster.
+- **CI** — workflow de `ansible-lint` no GitHub Actions garantindo qualidade dos playbooks.
+- **Gestão de segredos** — credenciais fora do versionamento, injetadas em runtime.
 
 ---
 
